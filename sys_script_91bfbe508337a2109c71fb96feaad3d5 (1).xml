@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unload unload_date="2025-09-04 07:26:39">
+<sys_script action="INSERT_OR_UPDATE">
+<abort_action>false</abort_action>
+<access>package_private</access>
+<action_delete>false</action_delete>
+<action_insert>true</action_insert>
+<action_query>false</action_query>
+<action_update>true</action_update>
+<active>true</active>
+<add_message>false</add_message>
+<advanced>true</advanced>
+<change_fields>false</change_fields>
+<client_callable>false</client_callable>
+<collection>u_daily_expenses</collection>
+<condition/>
+<description/>
+<execute_function>false</execute_function>
+<filter_condition table="u_daily_expenses"/>
+<is_rest>false</is_rest>
+<message/>
+<name>Family Expenses BR</name>
+<order>100</order>
+<priority>100</priority>
+<rest_method display_value=""/>
+<rest_method_text/>
+<rest_service display_value=""/>
+<rest_service_text/>
+<rest_variables/>
+<role_conditions/>
+<script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+
+var FamilyExpenses = new GlideRecord('u_family_expenses');
+FamilyExpenses.addQuery('u_date',current.u_date);
+FamilyExpenses.query();
+if(FamilyExpenses.next())
+{
+	FamilyExpenses.u_amount += current.u_expense;
+	FamilyExpenses.u_expense_details += ">"+current.u_comments+":"+"Rs."+current.u_expense+"/-";
+	FamilyExpenses.update();
+}
+else
+{
+	var NewFamilyExpenses = new GlideRecord('u_family_expenses');
+	NewFamilyExpenses.u_date = current.u_date;
+	NewFamilyExpenses.u_amount = current.u_expense;
+	NewFamilyExpenses.u_expense_details += ">"+current.u_comments+":"+"Rs."+current.u_expense+"/-";
+	NewFamilyExpenses.insert();
+}
+
+})(current, previous);]]></script>
+<sys_class_name>sys_script</sys_class_name>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-01 15:55:42</sys_created_on>
+<sys_domain>global</sys_domain>
+<sys_domain_path>/</sys_domain_path>
+<sys_id>91bfbe508337a2109c71fb96feaad3d5</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_name>Family Expenses BR</sys_name>
+<sys_overrides display_value=""/>
+<sys_package display_value="Global" source="global">global</sys_package>
+<sys_policy/>
+<sys_scope display_value="Global">global</sys_scope>
+<sys_update_name>sys_script_91bfbe508337a2109c71fb96feaad3d5</sys_update_name>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-01 15:55:42</sys_updated_on>
+<template/>
+<when>before</when>
+</sys_script>
+</unload>
